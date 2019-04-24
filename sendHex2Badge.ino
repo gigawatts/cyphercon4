@@ -1,7 +1,13 @@
 /* Cyphercon 4.0 Badge tape emulator by Gigawatts
- * Any Arduino compatible microcontroller with 3 volt logic levels should work
- * I used a TI Stellaris LaunchPad LM4F120 with Energia, thus the strange pin names
- * This should work fine with a 3 volt Arduino Uno, just update the pin numbers
+ * Any Arduino compatible microcontroller with 3 volt logic levels should work.
+ * I used a TI Stellaris LaunchPad LM4F120 with Energia, thus the strange pin names.
+ * This should work fine with a 3 volt Arduino Uno, just update the pin numbers.
+ * 
+ * 
+ * Instructions: Open up a serial terminal to your microcontroller at 115200 baud.
+ * Use the "punch-tape-to-hex.html" web page to decode your punch tape to hex.
+ * Paste the hex codes generated into your serial terminal, followed by a carriage return.
+ * The serial terminal should echo back your hex input and your badge should blink away.
  */
 
 //setting up Punch Hole pins
@@ -17,8 +23,7 @@ const int holeEight = PC_7; //Parity bit  //Bottom of Badge, Left most on badge 
 const int power = PB_2;
 
 //array of holes in MSB to LSB order
-int holes[] = { holeEight, holeSeven, holeSix, holeFive, 
-  holeFour, holeThree, holeTwo, holeOne };
+int holes[] = { holeEight, holeSeven, holeSix, holeFive, holeFour, holeThree, holeTwo, holeOne };
 
 #define ZERO_PADDING 8
 
