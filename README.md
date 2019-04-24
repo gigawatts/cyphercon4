@@ -10,7 +10,7 @@ Solder some jumper wires to your badge's IR sensors. Something like this:
 
 ![Back of badge](badge-back.jpg)
 
-I also soldered some pin headers on to the programming port which I am using to power the badge (3 volts) from the external microcontroller.
+I also soldered some pin headers on to the programming port which I am using to power the badge (3 volts) from the external microcontroller. Brown wire is Ground, Red wire is 3 volts.
 
 Connect all those jumper wires to your external microcontroller. See the arduino sketch comments for details on which pin is which.
 
