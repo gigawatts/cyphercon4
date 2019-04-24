@@ -5,7 +5,7 @@
  * 
  * 
  * Instructions: Open up a serial terminal to your microcontroller at 115200 baud.
- * Use the "punch-tape-to-hex.html" web page to decode your punch tape to hex.
+ * Use the "punch-tape-decoder.html" web page to decode your punch tape to hex.
  * Paste the hex codes generated into your serial terminal, followed by a carriage return.
  * The serial terminal should echo back your hex input and your badge should blink away.
  */
