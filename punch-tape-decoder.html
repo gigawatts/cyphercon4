@@ -1,0 +1,953 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+function isOdd(num) { return num % 2;}
+
+function getDecimal(row) {
+	var total = 0;
+	var binary_total = 0;
+	var parity = 0;
+	if($('#'+row+'-a').is(':checked')){ total += 1; parity += 1 }
+	if($('#'+row+'-b').is(':checked')){ total += 2; parity += 1 }
+	if($('#'+row+'-c').is(':checked')){ total += 4; parity += 1 }
+	if($('#'+row+'-d').is(':checked')){ total += 8; parity += 1 }
+	if($('#'+row+'-e').is(':checked')){ total += 16; parity += 1 }
+	if($('#'+row+'-f').is(':checked')){ total += 32; parity += 1 }
+	if($('#'+row+'-g').is(':checked')){ total += 64; parity += 1 }
+	//if($('#'+row+'-h').is(':checked')){ binary_total = total + 128 }
+	
+	if( isOdd(parity) == 1 ) {
+		document.getElementById(row+"-h").checked = true;  // Check the parity bit if number of 1 bits is Odd
+		binary_total = total + 128;
+	} else {
+		document.getElementById(row+"-h").checked = false;  // Uncheck the parity bit if number of 1 bits is Even
+		binary_total = total;
+	}
+	
+	var hex_num = ("00" + binary_total.toString(16)).substr(-2);
+	document.getElementById(row+"-hex").value = hex_num;
+	document.getElementById(row+"-dec").value = total;
+	document.getElementById(row+"-ascii").value = String.fromCharCode(total);
+}
+
+function writeHex() {
+	document.getElementById('cmd').value = "";
+	for (row = 1; row <= 47; row++) {
+		getDecimal(row);
+		document.getElementById('cmd').value += document.getElementById(row+"-hex").value + " ";
+	}
+}
+</script>
+
+<style>
+	* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  /* width: 50%; */
+  width: 500px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+
+<body>
+<h2>Cyphercon 4.0 Punch Tape Decoder</h2>
+Place a checkmark at each hole in a paper tape you want to copy.<br>
+When you are done, click the <b>Generate Code</b> button then<br>
+copy the Hex code output and paste it into a serial terminal.<br><br>
+
+<form>
+	<input type="button" value="Reset Form" onClick="this.form.reset()" />
+	<input type="button" value="Generate Code" onClick="writeHex();" />
+	<br><br>
+
+	<div class="row">
+	<div id="table" class="column">
+		<table>
+			<tr>
+					<th align='center'>#</th>
+					<th colspan="9" align='center'>Punch holes</th>
+					<th align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+					<th align='center'>HEX DEC ASCII</th>
+			</tr>
+			<tr>
+				<td align='center'>1)</td>
+				<td align='center'><input type='checkbox' id='1-a' data-weight=1 onclick="getDecimal('1');" ></td>
+				<td align='center'><input type='checkbox' id='1-b' data-weight=2 onclick="getDecimal('1');" ></td>
+				<td align='center'><input type='checkbox' id='1-c' data-weight=4 onclick="getDecimal('1');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='1-d' data-weight=8 onclick="getDecimal('1');" ></td>
+				<td align='center'><input type='checkbox' id='1-e' data-weight=16 onclick="getDecimal('1');" checked ></td>
+				<td align='center'><input type='checkbox' id='1-f' data-weight=32 onclick="getDecimal('1');" checked ></td>
+				<td align='center'><input type='checkbox' id='1-g' data-weight=64 onclick="getDecimal('1');" ></td>
+				<td align='center'><input type='checkbox' id='1-h' data-weight=128 onclick="getDecimal('1');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='1-hex' value='0' size='2' /> 
+					<input id='1-dec' value='0' size='2' /> 
+					<input id='1-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>2)</td>
+				<td align='center'><input type='checkbox' id='2-a' data-weight=1 onclick="getDecimal('2');" checked ></td>
+				<td align='center'><input type='checkbox' id='2-b' data-weight=2 onclick="getDecimal('2');" ></td>
+				<td align='center'><input type='checkbox' id='2-c' data-weight=4 onclick="getDecimal('2');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='2-d' data-weight=8 onclick="getDecimal('2');" ></td>
+				<td align='center'><input type='checkbox' id='2-e' data-weight=16 onclick="getDecimal('2');" checked ></td>
+				<td align='center'><input type='checkbox' id='2-f' data-weight=32 onclick="getDecimal('2');" checked ></td>
+				<td align='center'><input type='checkbox' id='2-g' data-weight=64 onclick="getDecimal('2');" ></td>
+				<td align='center'><input type='checkbox' id='2-h' data-weight=128 onclick="getDecimal('2');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='2-hex' value='0' size='2' /> 
+					<input id='2-dec' value='0' size='2' /> 
+					<input id='2-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>3)</td>
+				<td align='center'><input type='checkbox' id='3-a' data-weight=1 onclick="getDecimal('3');" ></td>
+				<td align='center'><input type='checkbox' id='3-b' data-weight=2 onclick="getDecimal('3');" ></td>
+				<td align='center'><input type='checkbox' id='3-c' data-weight=4 onclick="getDecimal('3');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='3-d' data-weight=8 onclick="getDecimal('3');" ></td>
+				<td align='center'><input type='checkbox' id='3-e' data-weight=16 onclick="getDecimal('3');" checked ></td>
+				<td align='center'><input type='checkbox' id='3-f' data-weight=32 onclick="getDecimal('3');" checked ></td>
+				<td align='center'><input type='checkbox' id='3-g' data-weight=64 onclick="getDecimal('3');" ></td>
+				<td align='center'><input type='checkbox' id='3-h' data-weight=128 onclick="getDecimal('3');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='3-hex' value='0' size='2' /> 
+					<input id='3-dec' value='0' size='2' /> 
+					<input id='3-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>4)</td>
+				<td align='center'><input type='checkbox' id='4-a' data-weight=1 onclick="getDecimal('4');" ></td>
+				<td align='center'><input type='checkbox' id='4-b' data-weight=2 onclick="getDecimal('4');" checked ></td>
+				<td align='center'><input type='checkbox' id='4-c' data-weight=4 onclick="getDecimal('4');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='4-d' data-weight=8 onclick="getDecimal('4');" ></td>
+				<td align='center'><input type='checkbox' id='4-e' data-weight=16 onclick="getDecimal('4');" checked ></td>
+				<td align='center'><input type='checkbox' id='4-f' data-weight=32 onclick="getDecimal('4');" checked ></td>
+				<td align='center'><input type='checkbox' id='4-g' data-weight=64 onclick="getDecimal('4');" ></td>
+				<td align='center'><input type='checkbox' id='4-h' data-weight=128 onclick="getDecimal('4');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='4-hex' value='0' size='2' /> 
+					<input id='4-dec' value='0' size='2' /> 
+					<input id='4-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+					<td colspan="12" align='center'><hr></th>
+			</tr>
+			<tr>
+				<td align='center'>5)</td>
+				<td align='center'><input type='checkbox' id='5-a' data-weight=1 onclick="getDecimal('5');" ></td>
+				<td align='center'><input type='checkbox' id='5-b' data-weight=2 onclick="getDecimal('5');" ></td>
+				<td align='center'><input type='checkbox' id='5-c' data-weight=4 onclick="getDecimal('5');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='5-d' data-weight=8 onclick="getDecimal('5');" ></td>
+				<td align='center'><input type='checkbox' id='5-e' data-weight=16 onclick="getDecimal('5');" ></td>
+				<td align='center'><input type='checkbox' id='5-f' data-weight=32 onclick="getDecimal('5');" ></td>
+				<td align='center'><input type='checkbox' id='5-g' data-weight=64 onclick="getDecimal('5');" ></td>
+				<td align='center'><input type='checkbox' id='5-h' data-weight=128 onclick="getDecimal('5');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='5-hex' value='0' size='2' /> 
+					<input id='5-dec' value='0' size='2' /> 
+					<input id='5-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>6)</td>
+				<td align='center'><input type='checkbox' id='6-a' data-weight=1 onclick="getDecimal('6');" ></td>
+				<td align='center'><input type='checkbox' id='6-b' data-weight=2 onclick="getDecimal('6');" ></td>
+				<td align='center'><input type='checkbox' id='6-c' data-weight=4 onclick="getDecimal('6');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='6-d' data-weight=8 onclick="getDecimal('6');" ></td>
+				<td align='center'><input type='checkbox' id='6-e' data-weight=16 onclick="getDecimal('6');" ></td>
+				<td align='center'><input type='checkbox' id='6-f' data-weight=32 onclick="getDecimal('6');" ></td>
+				<td align='center'><input type='checkbox' id='6-g' data-weight=64 onclick="getDecimal('6');" ></td>
+				<td align='center'><input type='checkbox' id='6-h' data-weight=128 onclick="getDecimal('6');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='6-hex' value='0' size='2' /> 
+					<input id='6-dec' value='0' size='2' /> 
+					<input id='6-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>7)</td>
+				<td align='center'><input type='checkbox' id='7-a' data-weight=1 onclick="getDecimal('7');" ></td>
+				<td align='center'><input type='checkbox' id='7-b' data-weight=2 onclick="getDecimal('7');" ></td>
+				<td align='center'><input type='checkbox' id='7-c' data-weight=4 onclick="getDecimal('7');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='7-d' data-weight=8 onclick="getDecimal('7');" ></td>
+				<td align='center'><input type='checkbox' id='7-e' data-weight=16 onclick="getDecimal('7');" ></td>
+				<td align='center'><input type='checkbox' id='7-f' data-weight=32 onclick="getDecimal('7');" ></td>
+				<td align='center'><input type='checkbox' id='7-g' data-weight=64 onclick="getDecimal('7');" ></td>
+				<td align='center'><input type='checkbox' id='7-h' data-weight=128 onclick="getDecimal('7');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='7-hex' value='0' size='2' /> 
+					<input id='7-dec' value='0' size='2' /> 
+					<input id='7-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>8)</td>
+				<td align='center'><input type='checkbox' id='8-a' data-weight=1 onclick="getDecimal('8');" ></td>
+				<td align='center'><input type='checkbox' id='8-b' data-weight=2 onclick="getDecimal('8');" ></td>
+				<td align='center'><input type='checkbox' id='8-c' data-weight=4 onclick="getDecimal('8');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='8-d' data-weight=8 onclick="getDecimal('8');" ></td>
+				<td align='center'><input type='checkbox' id='8-e' data-weight=16 onclick="getDecimal('8');" ></td>
+				<td align='center'><input type='checkbox' id='8-f' data-weight=32 onclick="getDecimal('8');" ></td>
+				<td align='center'><input type='checkbox' id='8-g' data-weight=64 onclick="getDecimal('8');" ></td>
+				<td align='center'><input type='checkbox' id='8-h' data-weight=128 onclick="getDecimal('8');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='8-hex' value='0' size='2' /> 
+					<input id='8-dec' value='0' size='2' /> 
+					<input id='8-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>9)</td>
+				<td align='center'><input type='checkbox' id='9-a' data-weight=1 onclick="getDecimal('9');" ></td>
+				<td align='center'><input type='checkbox' id='9-b' data-weight=2 onclick="getDecimal('9');" ></td>
+				<td align='center'><input type='checkbox' id='9-c' data-weight=4 onclick="getDecimal('9');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='9-d' data-weight=8 onclick="getDecimal('9');" ></td>
+				<td align='center'><input type='checkbox' id='9-e' data-weight=16 onclick="getDecimal('9');" ></td>
+				<td align='center'><input type='checkbox' id='9-f' data-weight=32 onclick="getDecimal('9');" ></td>
+				<td align='center'><input type='checkbox' id='9-g' data-weight=64 onclick="getDecimal('9');" ></td>
+				<td align='center'><input type='checkbox' id='9-h' data-weight=128 onclick="getDecimal('9');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='9-hex' value='0' size='2' /> 
+					<input id='9-dec' value='0' size='2' /> 
+					<input id='9-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>10)</td>
+				<td align='center'><input type='checkbox' id='10-a' data-weight=1 onclick="getDecimal('10');" ></td>
+				<td align='center'><input type='checkbox' id='10-b' data-weight=2 onclick="getDecimal('10');" ></td>
+				<td align='center'><input type='checkbox' id='10-c' data-weight=4 onclick="getDecimal('10');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='10-d' data-weight=8 onclick="getDecimal('10');" ></td>
+				<td align='center'><input type='checkbox' id='10-e' data-weight=16 onclick="getDecimal('10');" ></td>
+				<td align='center'><input type='checkbox' id='10-f' data-weight=32 onclick="getDecimal('10');" ></td>
+				<td align='center'><input type='checkbox' id='10-g' data-weight=64 onclick="getDecimal('10');" ></td>
+				<td align='center'><input type='checkbox' id='10-h' data-weight=128 onclick="getDecimal('10');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='10-hex' value='0' size='2' /> 
+					<input id='10-dec' value='0' size='2' /> 
+					<input id='10-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+					<td colspan="12" align='center'><hr></th>
+			</tr>
+			<tr>
+				<td align='center'>11)</td>
+				<td align='center'><input type='checkbox' id='11-a' data-weight=1 onclick="getDecimal('11');" ></td>
+				<td align='center'><input type='checkbox' id='11-b' data-weight=2 onclick="getDecimal('11');" ></td>
+				<td align='center'><input type='checkbox' id='11-c' data-weight=4 onclick="getDecimal('11');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='11-d' data-weight=8 onclick="getDecimal('11');" ></td>
+				<td align='center'><input type='checkbox' id='11-e' data-weight=16 onclick="getDecimal('11');" ></td>
+				<td align='center'><input type='checkbox' id='11-f' data-weight=32 onclick="getDecimal('11');" ></td>
+				<td align='center'><input type='checkbox' id='11-g' data-weight=64 onclick="getDecimal('11');" ></td>
+				<td align='center'><input type='checkbox' id='11-h' data-weight=128 onclick="getDecimal('11');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='11-hex' value='0' size='2' /> 
+					<input id='11-dec' value='0' size='2' /> 
+					<input id='11-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>12)</td>
+				<td align='center'><input type='checkbox' id='12-a' data-weight=1 onclick="getDecimal('12');" ></td>
+				<td align='center'><input type='checkbox' id='12-b' data-weight=2 onclick="getDecimal('12');" ></td>
+				<td align='center'><input type='checkbox' id='12-c' data-weight=4 onclick="getDecimal('12');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='12-d' data-weight=8 onclick="getDecimal('12');" ></td>
+				<td align='center'><input type='checkbox' id='12-e' data-weight=16 onclick="getDecimal('12');" ></td>
+				<td align='center'><input type='checkbox' id='12-f' data-weight=32 onclick="getDecimal('12');" ></td>
+				<td align='center'><input type='checkbox' id='12-g' data-weight=64 onclick="getDecimal('12');" ></td>
+				<td align='center'><input type='checkbox' id='12-h' data-weight=128 onclick="getDecimal('12');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='12-hex' value='0' size='2' /> 
+					<input id='12-dec' value='0' size='2' /> 
+					<input id='12-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>13)</td>
+				<td align='center'><input type='checkbox' id='13-a' data-weight=1 onclick="getDecimal('13');" ></td>
+				<td align='center'><input type='checkbox' id='13-b' data-weight=2 onclick="getDecimal('13');" ></td>
+				<td align='center'><input type='checkbox' id='13-c' data-weight=4 onclick="getDecimal('13');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='13-d' data-weight=8 onclick="getDecimal('13');" ></td>
+				<td align='center'><input type='checkbox' id='13-e' data-weight=16 onclick="getDecimal('13');" ></td>
+				<td align='center'><input type='checkbox' id='13-f' data-weight=32 onclick="getDecimal('13');" ></td>
+				<td align='center'><input type='checkbox' id='13-g' data-weight=64 onclick="getDecimal('13');" ></td>
+				<td align='center'><input type='checkbox' id='13-h' data-weight=128 onclick="getDecimal('13');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='13-hex' value='0' size='2' /> 
+					<input id='13-dec' value='0' size='2' /> 
+					<input id='13-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>14)</td>
+				<td align='center'><input type='checkbox' id='14-a' data-weight=1 onclick="getDecimal('14');" ></td>
+				<td align='center'><input type='checkbox' id='14-b' data-weight=2 onclick="getDecimal('14');" ></td>
+				<td align='center'><input type='checkbox' id='14-c' data-weight=4 onclick="getDecimal('14');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='14-d' data-weight=8 onclick="getDecimal('14');" ></td>
+				<td align='center'><input type='checkbox' id='14-e' data-weight=16 onclick="getDecimal('14');" ></td>
+				<td align='center'><input type='checkbox' id='14-f' data-weight=32 onclick="getDecimal('14');" ></td>
+				<td align='center'><input type='checkbox' id='14-g' data-weight=64 onclick="getDecimal('14');" ></td>
+				<td align='center'><input type='checkbox' id='14-h' data-weight=128 onclick="getDecimal('14');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='14-hex' value='0' size='2' /> 
+					<input id='14-dec' value='0' size='2' /> 
+					<input id='14-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>15)</td>
+				<td align='center'><input type='checkbox' id='15-a' data-weight=1 onclick="getDecimal('15');" ></td>
+				<td align='center'><input type='checkbox' id='15-b' data-weight=2 onclick="getDecimal('15');" ></td>
+				<td align='center'><input type='checkbox' id='15-c' data-weight=4 onclick="getDecimal('15');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='15-d' data-weight=8 onclick="getDecimal('15');" ></td>
+				<td align='center'><input type='checkbox' id='15-e' data-weight=16 onclick="getDecimal('15');" ></td>
+				<td align='center'><input type='checkbox' id='15-f' data-weight=32 onclick="getDecimal('15');" ></td>
+				<td align='center'><input type='checkbox' id='15-g' data-weight=64 onclick="getDecimal('15');" ></td>
+				<td align='center'><input type='checkbox' id='15-h' data-weight=128 onclick="getDecimal('15');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='15-hex' value='0' size='2' /> 
+					<input id='15-dec' value='0' size='2' /> 
+					<input id='15-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>16)</td>
+				<td align='center'><input type='checkbox' id='16-a' data-weight=1 onclick="getDecimal('16');" ></td>
+				<td align='center'><input type='checkbox' id='16-b' data-weight=2 onclick="getDecimal('16');" ></td>
+				<td align='center'><input type='checkbox' id='16-c' data-weight=4 onclick="getDecimal('16');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='16-d' data-weight=8 onclick="getDecimal('16');" ></td>
+				<td align='center'><input type='checkbox' id='16-e' data-weight=16 onclick="getDecimal('16');" ></td>
+				<td align='center'><input type='checkbox' id='16-f' data-weight=32 onclick="getDecimal('16');" ></td>
+				<td align='center'><input type='checkbox' id='16-g' data-weight=64 onclick="getDecimal('16');" ></td>
+				<td align='center'><input type='checkbox' id='16-h' data-weight=128 onclick="getDecimal('16');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='16-hex' value='0' size='2' /> 
+					<input id='16-dec' value='0' size='2' /> 
+					<input id='16-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>17)</td>
+				<td align='center'><input type='checkbox' id='17-a' data-weight=1 onclick="getDecimal('17');" ></td>
+				<td align='center'><input type='checkbox' id='17-b' data-weight=2 onclick="getDecimal('17');" ></td>
+				<td align='center'><input type='checkbox' id='17-c' data-weight=4 onclick="getDecimal('17');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='17-d' data-weight=8 onclick="getDecimal('17');" ></td>
+				<td align='center'><input type='checkbox' id='17-e' data-weight=16 onclick="getDecimal('17');" ></td>
+				<td align='center'><input type='checkbox' id='17-f' data-weight=32 onclick="getDecimal('17');" ></td>
+				<td align='center'><input type='checkbox' id='17-g' data-weight=64 onclick="getDecimal('17');" ></td>
+				<td align='center'><input type='checkbox' id='17-h' data-weight=128 onclick="getDecimal('17');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='17-hex' value='0' size='2' /> 
+					<input id='17-dec' value='0' size='2' /> 
+					<input id='17-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>18)</td>
+				<td align='center'><input type='checkbox' id='18-a' data-weight=1 onclick="getDecimal('18');" ></td>
+				<td align='center'><input type='checkbox' id='18-b' data-weight=2 onclick="getDecimal('18');" ></td>
+				<td align='center'><input type='checkbox' id='18-c' data-weight=4 onclick="getDecimal('18');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='18-d' data-weight=8 onclick="getDecimal('18');" ></td>
+				<td align='center'><input type='checkbox' id='18-e' data-weight=16 onclick="getDecimal('18');" ></td>
+				<td align='center'><input type='checkbox' id='18-f' data-weight=32 onclick="getDecimal('18');" ></td>
+				<td align='center'><input type='checkbox' id='18-g' data-weight=64 onclick="getDecimal('18');" ></td>
+				<td align='center'><input type='checkbox' id='18-h' data-weight=128 onclick="getDecimal('18');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='18-hex' value='0' size='2' /> 
+					<input id='18-dec' value='0' size='2' /> 
+					<input id='18-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>19)</td>
+				<td align='center'><input type='checkbox' id='19-a' data-weight=1 onclick="getDecimal('19');" ></td>
+				<td align='center'><input type='checkbox' id='19-b' data-weight=2 onclick="getDecimal('19');" ></td>
+				<td align='center'><input type='checkbox' id='19-c' data-weight=4 onclick="getDecimal('19');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='19-d' data-weight=8 onclick="getDecimal('19');" ></td>
+				<td align='center'><input type='checkbox' id='19-e' data-weight=16 onclick="getDecimal('19');" ></td>
+				<td align='center'><input type='checkbox' id='19-f' data-weight=32 onclick="getDecimal('19');" ></td>
+				<td align='center'><input type='checkbox' id='19-g' data-weight=64 onclick="getDecimal('19');" ></td>
+				<td align='center'><input type='checkbox' id='19-h' data-weight=128 onclick="getDecimal('19');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='19-hex' value='0' size='2' /> 
+					<input id='19-dec' value='0' size='2' /> 
+					<input id='19-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>20)</td>
+				<td align='center'><input type='checkbox' id='20-a' data-weight=1 onclick="getDecimal('20');" ></td>
+				<td align='center'><input type='checkbox' id='20-b' data-weight=2 onclick="getDecimal('20');" ></td>
+				<td align='center'><input type='checkbox' id='20-c' data-weight=4 onclick="getDecimal('20');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='20-d' data-weight=8 onclick="getDecimal('20');" ></td>
+				<td align='center'><input type='checkbox' id='20-e' data-weight=16 onclick="getDecimal('20');" ></td>
+				<td align='center'><input type='checkbox' id='20-f' data-weight=32 onclick="getDecimal('20');" ></td>
+				<td align='center'><input type='checkbox' id='20-g' data-weight=64 onclick="getDecimal('20');" ></td>
+				<td align='center'><input type='checkbox' id='20-h' data-weight=128 onclick="getDecimal('20');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='20-hex' value='0' size='2' /> 
+					<input id='20-dec' value='0' size='2' /> 
+					<input id='20-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>21)</td>
+				<td align='center'><input type='checkbox' id='21-a' data-weight=1 onclick="getDecimal('21');" ></td>
+				<td align='center'><input type='checkbox' id='21-b' data-weight=2 onclick="getDecimal('21');" ></td>
+				<td align='center'><input type='checkbox' id='21-c' data-weight=4 onclick="getDecimal('21');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='21-d' data-weight=8 onclick="getDecimal('21');" ></td>
+				<td align='center'><input type='checkbox' id='21-e' data-weight=16 onclick="getDecimal('21');" ></td>
+				<td align='center'><input type='checkbox' id='21-f' data-weight=32 onclick="getDecimal('21');" ></td>
+				<td align='center'><input type='checkbox' id='21-g' data-weight=64 onclick="getDecimal('21');" ></td>
+				<td align='center'><input type='checkbox' id='21-h' data-weight=128 onclick="getDecimal('21');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='21-hex' value='0' size='2' /> 
+					<input id='21-dec' value='0' size='2' /> 
+					<input id='21-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>22)</td>
+				<td align='center'><input type='checkbox' id='22-a' data-weight=1 onclick="getDecimal('22');" ></td>
+				<td align='center'><input type='checkbox' id='22-b' data-weight=2 onclick="getDecimal('22');" ></td>
+				<td align='center'><input type='checkbox' id='22-c' data-weight=4 onclick="getDecimal('22');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='22-d' data-weight=8 onclick="getDecimal('22');" ></td>
+				<td align='center'><input type='checkbox' id='22-e' data-weight=16 onclick="getDecimal('22');" ></td>
+				<td align='center'><input type='checkbox' id='22-f' data-weight=32 onclick="getDecimal('22');" ></td>
+				<td align='center'><input type='checkbox' id='22-g' data-weight=64 onclick="getDecimal('22');" ></td>
+				<td align='center'><input type='checkbox' id='22-h' data-weight=128 onclick="getDecimal('22');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='22-hex' value='0' size='2' /> 
+					<input id='22-dec' value='0' size='2' /> 
+					<input id='22-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>23)</td>
+				<td align='center'><input type='checkbox' id='23-a' data-weight=1 onclick="getDecimal('23');" ></td>
+				<td align='center'><input type='checkbox' id='23-b' data-weight=2 onclick="getDecimal('23');" ></td>
+				<td align='center'><input type='checkbox' id='23-c' data-weight=4 onclick="getDecimal('23');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='23-d' data-weight=8 onclick="getDecimal('23');" ></td>
+				<td align='center'><input type='checkbox' id='23-e' data-weight=16 onclick="getDecimal('23');" ></td>
+				<td align='center'><input type='checkbox' id='23-f' data-weight=32 onclick="getDecimal('23');" ></td>
+				<td align='center'><input type='checkbox' id='23-g' data-weight=64 onclick="getDecimal('23');" ></td>
+				<td align='center'><input type='checkbox' id='23-h' data-weight=128 onclick="getDecimal('23');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='23-hex' value='0' size='2' /> 
+					<input id='23-dec' value='0' size='2' /> 
+					<input id='23-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+					<td colspan="12" align='center'><hr></th>
+			</tr>
+			<tr>
+				<td align='center'>24)</td>
+				<td align='center'><input type='checkbox' id='24-a' data-weight=1 onclick="getDecimal('24');" ></td>
+				<td align='center'><input type='checkbox' id='24-b' data-weight=2 onclick="getDecimal('24');" ></td>
+				<td align='center'><input type='checkbox' id='24-c' data-weight=4 onclick="getDecimal('24');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='24-d' data-weight=8 onclick="getDecimal('24');" ></td>
+				<td align='center'><input type='checkbox' id='24-e' data-weight=16 onclick="getDecimal('24');" ></td>
+				<td align='center'><input type='checkbox' id='24-f' data-weight=32 onclick="getDecimal('24');" ></td>
+				<td align='center'><input type='checkbox' id='24-g' data-weight=64 onclick="getDecimal('24');" ></td>
+				<td align='center'><input type='checkbox' id='24-h' data-weight=128 onclick="getDecimal('24');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='24-hex' value='0' size='2' /> 
+					<input id='24-dec' value='0' size='2' /> 
+					<input id='24-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>25)</td>
+				<td align='center'><input type='checkbox' id='25-a' data-weight=1 onclick="getDecimal('25');" ></td>
+				<td align='center'><input type='checkbox' id='25-b' data-weight=2 onclick="getDecimal('25');" ></td>
+				<td align='center'><input type='checkbox' id='25-c' data-weight=4 onclick="getDecimal('25');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='25-d' data-weight=8 onclick="getDecimal('25');" ></td>
+				<td align='center'><input type='checkbox' id='25-e' data-weight=16 onclick="getDecimal('25');" ></td>
+				<td align='center'><input type='checkbox' id='25-f' data-weight=32 onclick="getDecimal('25');" ></td>
+				<td align='center'><input type='checkbox' id='25-g' data-weight=64 onclick="getDecimal('25');" ></td>
+				<td align='center'><input type='checkbox' id='25-h' data-weight=128 onclick="getDecimal('25');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='25-hex' value='0' size='2' /> 
+					<input id='25-dec' value='0' size='2' /> 
+					<input id='25-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>26)</td>
+				<td align='center'><input type='checkbox' id='26-a' data-weight=1 onclick="getDecimal('26');" ></td>
+				<td align='center'><input type='checkbox' id='26-b' data-weight=2 onclick="getDecimal('26');" ></td>
+				<td align='center'><input type='checkbox' id='26-c' data-weight=4 onclick="getDecimal('26');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='26-d' data-weight=8 onclick="getDecimal('26');" ></td>
+				<td align='center'><input type='checkbox' id='26-e' data-weight=16 onclick="getDecimal('26');" ></td>
+				<td align='center'><input type='checkbox' id='26-f' data-weight=32 onclick="getDecimal('26');" ></td>
+				<td align='center'><input type='checkbox' id='26-g' data-weight=64 onclick="getDecimal('26');" ></td>
+				<td align='center'><input type='checkbox' id='26-h' data-weight=128 onclick="getDecimal('26');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='26-hex' value='0' size='2' /> 
+					<input id='26-dec' value='0' size='2' /> 
+					<input id='26-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>27)</td>
+				<td align='center'><input type='checkbox' id='27-a' data-weight=1 onclick="getDecimal('27');" ></td>
+				<td align='center'><input type='checkbox' id='27-b' data-weight=2 onclick="getDecimal('27');" ></td>
+				<td align='center'><input type='checkbox' id='27-c' data-weight=4 onclick="getDecimal('27');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='27-d' data-weight=8 onclick="getDecimal('27');" ></td>
+				<td align='center'><input type='checkbox' id='27-e' data-weight=16 onclick="getDecimal('27');" ></td>
+				<td align='center'><input type='checkbox' id='27-f' data-weight=32 onclick="getDecimal('27');" ></td>
+				<td align='center'><input type='checkbox' id='27-g' data-weight=64 onclick="getDecimal('27');" ></td>
+				<td align='center'><input type='checkbox' id='27-h' data-weight=128 onclick="getDecimal('27');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='27-hex' value='0' size='2' /> 
+					<input id='27-dec' value='0' size='2' /> 
+					<input id='27-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>28)</td>
+				<td align='center'><input type='checkbox' id='28-a' data-weight=1 onclick="getDecimal('28');" ></td>
+				<td align='center'><input type='checkbox' id='28-b' data-weight=2 onclick="getDecimal('28');" ></td>
+				<td align='center'><input type='checkbox' id='28-c' data-weight=4 onclick="getDecimal('28');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='28-d' data-weight=8 onclick="getDecimal('28');" ></td>
+				<td align='center'><input type='checkbox' id='28-e' data-weight=16 onclick="getDecimal('28');" ></td>
+				<td align='center'><input type='checkbox' id='28-f' data-weight=32 onclick="getDecimal('28');" ></td>
+				<td align='center'><input type='checkbox' id='28-g' data-weight=64 onclick="getDecimal('28');" ></td>
+				<td align='center'><input type='checkbox' id='28-h' data-weight=128 onclick="getDecimal('28');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='28-hex' value='0' size='2' /> 
+					<input id='28-dec' value='0' size='2' /> 
+					<input id='28-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>29)</td>
+				<td align='center'><input type='checkbox' id='29-a' data-weight=1 onclick="getDecimal('29');" ></td>
+				<td align='center'><input type='checkbox' id='29-b' data-weight=2 onclick="getDecimal('29');" ></td>
+				<td align='center'><input type='checkbox' id='29-c' data-weight=4 onclick="getDecimal('29');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='29-d' data-weight=8 onclick="getDecimal('29');" ></td>
+				<td align='center'><input type='checkbox' id='29-e' data-weight=16 onclick="getDecimal('29');" ></td>
+				<td align='center'><input type='checkbox' id='29-f' data-weight=32 onclick="getDecimal('29');" ></td>
+				<td align='center'><input type='checkbox' id='29-g' data-weight=64 onclick="getDecimal('29');" ></td>
+				<td align='center'><input type='checkbox' id='29-h' data-weight=128 onclick="getDecimal('29');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='29-hex' value='0' size='2' /> 
+					<input id='29-dec' value='0' size='2' /> 
+					<input id='29-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>30)</td>
+				<td align='center'><input type='checkbox' id='30-a' data-weight=1 onclick="getDecimal('30');" ></td>
+				<td align='center'><input type='checkbox' id='30-b' data-weight=2 onclick="getDecimal('30');" ></td>
+				<td align='center'><input type='checkbox' id='30-c' data-weight=4 onclick="getDecimal('30');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='30-d' data-weight=8 onclick="getDecimal('30');" ></td>
+				<td align='center'><input type='checkbox' id='30-e' data-weight=16 onclick="getDecimal('30');" ></td>
+				<td align='center'><input type='checkbox' id='30-f' data-weight=32 onclick="getDecimal('30');" ></td>
+				<td align='center'><input type='checkbox' id='30-g' data-weight=64 onclick="getDecimal('30');" ></td>
+				<td align='center'><input type='checkbox' id='30-h' data-weight=128 onclick="getDecimal('30');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='30-hex' value='0' size='2' /> 
+					<input id='30-dec' value='0' size='2' /> 
+					<input id='30-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>31)</td>
+				<td align='center'><input type='checkbox' id='31-a' data-weight=1 onclick="getDecimal('31');" ></td>
+				<td align='center'><input type='checkbox' id='31-b' data-weight=2 onclick="getDecimal('31');" ></td>
+				<td align='center'><input type='checkbox' id='31-c' data-weight=4 onclick="getDecimal('31');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='31-d' data-weight=8 onclick="getDecimal('31');" ></td>
+				<td align='center'><input type='checkbox' id='31-e' data-weight=16 onclick="getDecimal('31');" ></td>
+				<td align='center'><input type='checkbox' id='31-f' data-weight=32 onclick="getDecimal('31');" ></td>
+				<td align='center'><input type='checkbox' id='31-g' data-weight=64 onclick="getDecimal('31');" ></td>
+				<td align='center'><input type='checkbox' id='31-h' data-weight=128 onclick="getDecimal('31');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='31-hex' value='0' size='2' /> 
+					<input id='31-dec' value='0' size='2' /> 
+					<input id='31-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>32)</td>
+				<td align='center'><input type='checkbox' id='32-a' data-weight=1 onclick="getDecimal('32');" ></td>
+				<td align='center'><input type='checkbox' id='32-b' data-weight=2 onclick="getDecimal('32');" ></td>
+				<td align='center'><input type='checkbox' id='32-c' data-weight=4 onclick="getDecimal('32');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='32-d' data-weight=8 onclick="getDecimal('32');" ></td>
+				<td align='center'><input type='checkbox' id='32-e' data-weight=16 onclick="getDecimal('32');" ></td>
+				<td align='center'><input type='checkbox' id='32-f' data-weight=32 onclick="getDecimal('32');" ></td>
+				<td align='center'><input type='checkbox' id='32-g' data-weight=64 onclick="getDecimal('32');" ></td>
+				<td align='center'><input type='checkbox' id='32-h' data-weight=128 onclick="getDecimal('32');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='32-hex' value='0' size='2' /> 
+					<input id='32-dec' value='0' size='2' /> 
+					<input id='32-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>33)</td>
+				<td align='center'><input type='checkbox' id='33-a' data-weight=1 onclick="getDecimal('33');" ></td>
+				<td align='center'><input type='checkbox' id='33-b' data-weight=2 onclick="getDecimal('33');" ></td>
+				<td align='center'><input type='checkbox' id='33-c' data-weight=4 onclick="getDecimal('33');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='33-d' data-weight=8 onclick="getDecimal('33');" ></td>
+				<td align='center'><input type='checkbox' id='33-e' data-weight=16 onclick="getDecimal('33');" ></td>
+				<td align='center'><input type='checkbox' id='33-f' data-weight=32 onclick="getDecimal('33');" ></td>
+				<td align='center'><input type='checkbox' id='33-g' data-weight=64 onclick="getDecimal('33');" ></td>
+				<td align='center'><input type='checkbox' id='33-h' data-weight=128 onclick="getDecimal('33');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='33-hex' value='0' size='2' /> 
+					<input id='33-dec' value='0' size='2' /> 
+					<input id='33-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>34)</td>
+				<td align='center'><input type='checkbox' id='34-a' data-weight=1 onclick="getDecimal('34');" ></td>
+				<td align='center'><input type='checkbox' id='34-b' data-weight=2 onclick="getDecimal('34');" ></td>
+				<td align='center'><input type='checkbox' id='34-c' data-weight=4 onclick="getDecimal('34');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='34-d' data-weight=8 onclick="getDecimal('34');" ></td>
+				<td align='center'><input type='checkbox' id='34-e' data-weight=16 onclick="getDecimal('34');" ></td>
+				<td align='center'><input type='checkbox' id='34-f' data-weight=32 onclick="getDecimal('34');" ></td>
+				<td align='center'><input type='checkbox' id='34-g' data-weight=64 onclick="getDecimal('34');" ></td>
+				<td align='center'><input type='checkbox' id='34-h' data-weight=128 onclick="getDecimal('34');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='34-hex' value='0' size='2' /> 
+					<input id='34-dec' value='0' size='2' /> 
+					<input id='34-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>35)</td>
+				<td align='center'><input type='checkbox' id='35-a' data-weight=1 onclick="getDecimal('35');" ></td>
+				<td align='center'><input type='checkbox' id='35-b' data-weight=2 onclick="getDecimal('35');" ></td>
+				<td align='center'><input type='checkbox' id='35-c' data-weight=4 onclick="getDecimal('35');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='35-d' data-weight=8 onclick="getDecimal('35');" ></td>
+				<td align='center'><input type='checkbox' id='35-e' data-weight=16 onclick="getDecimal('35');" ></td>
+				<td align='center'><input type='checkbox' id='35-f' data-weight=32 onclick="getDecimal('35');" ></td>
+				<td align='center'><input type='checkbox' id='35-g' data-weight=64 onclick="getDecimal('35');" ></td>
+				<td align='center'><input type='checkbox' id='35-h' data-weight=128 onclick="getDecimal('35');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='35-hex' value='0' size='2' /> 
+					<input id='35-dec' value='0' size='2' /> 
+					<input id='35-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>36)</td>
+				<td align='center'><input type='checkbox' id='36-a' data-weight=1 onclick="getDecimal('36');" ></td>
+				<td align='center'><input type='checkbox' id='36-b' data-weight=2 onclick="getDecimal('36');" ></td>
+				<td align='center'><input type='checkbox' id='36-c' data-weight=4 onclick="getDecimal('36');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='36-d' data-weight=8 onclick="getDecimal('36');" ></td>
+				<td align='center'><input type='checkbox' id='36-e' data-weight=16 onclick="getDecimal('36');" ></td>
+				<td align='center'><input type='checkbox' id='36-f' data-weight=32 onclick="getDecimal('36');" ></td>
+				<td align='center'><input type='checkbox' id='36-g' data-weight=64 onclick="getDecimal('36');" ></td>
+				<td align='center'><input type='checkbox' id='36-h' data-weight=128 onclick="getDecimal('36');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='36-hex' value='0' size='2' /> 
+					<input id='36-dec' value='0' size='2' /> 
+					<input id='36-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>37)</td>
+				<td align='center'><input type='checkbox' id='37-a' data-weight=1 onclick="getDecimal('37');" ></td>
+				<td align='center'><input type='checkbox' id='37-b' data-weight=2 onclick="getDecimal('37');" ></td>
+				<td align='center'><input type='checkbox' id='37-c' data-weight=4 onclick="getDecimal('37');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='37-d' data-weight=8 onclick="getDecimal('37');" ></td>
+				<td align='center'><input type='checkbox' id='37-e' data-weight=16 onclick="getDecimal('37');" ></td>
+				<td align='center'><input type='checkbox' id='37-f' data-weight=32 onclick="getDecimal('37');" ></td>
+				<td align='center'><input type='checkbox' id='37-g' data-weight=64 onclick="getDecimal('37');" ></td>
+				<td align='center'><input type='checkbox' id='37-h' data-weight=128 onclick="getDecimal('37');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='37-hex' value='0' size='2' /> 
+					<input id='37-dec' value='0' size='2' /> 
+					<input id='37-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>38)</td>
+				<td align='center'><input type='checkbox' id='38-a' data-weight=1 onclick="getDecimal('38');" ></td>
+				<td align='center'><input type='checkbox' id='38-b' data-weight=2 onclick="getDecimal('38');" ></td>
+				<td align='center'><input type='checkbox' id='38-c' data-weight=4 onclick="getDecimal('38');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='38-d' data-weight=8 onclick="getDecimal('38');" ></td>
+				<td align='center'><input type='checkbox' id='38-e' data-weight=16 onclick="getDecimal('38');" ></td>
+				<td align='center'><input type='checkbox' id='38-f' data-weight=32 onclick="getDecimal('38');" ></td>
+				<td align='center'><input type='checkbox' id='38-g' data-weight=64 onclick="getDecimal('38');" ></td>
+				<td align='center'><input type='checkbox' id='38-h' data-weight=128 onclick="getDecimal('38');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='38-hex' value='0' size='2' /> 
+					<input id='38-dec' value='0' size='2' /> 
+					<input id='38-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>39)</td>
+				<td align='center'><input type='checkbox' id='39-a' data-weight=1 onclick="getDecimal('39');" ></td>
+				<td align='center'><input type='checkbox' id='39-b' data-weight=2 onclick="getDecimal('39');" ></td>
+				<td align='center'><input type='checkbox' id='39-c' data-weight=4 onclick="getDecimal('39');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='39-d' data-weight=8 onclick="getDecimal('39');" ></td>
+				<td align='center'><input type='checkbox' id='39-e' data-weight=16 onclick="getDecimal('39');" ></td>
+				<td align='center'><input type='checkbox' id='39-f' data-weight=32 onclick="getDecimal('39');" ></td>
+				<td align='center'><input type='checkbox' id='39-g' data-weight=64 onclick="getDecimal('39');" ></td>
+				<td align='center'><input type='checkbox' id='39-h' data-weight=128 onclick="getDecimal('39');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='39-hex' value='0' size='2' /> 
+					<input id='39-dec' value='0' size='2' /> 
+					<input id='39-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>40)</td>
+				<td align='center'><input type='checkbox' id='40-a' data-weight=1 onclick="getDecimal('40');" ></td>
+				<td align='center'><input type='checkbox' id='40-b' data-weight=2 onclick="getDecimal('40');" ></td>
+				<td align='center'><input type='checkbox' id='40-c' data-weight=4 onclick="getDecimal('40');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='40-d' data-weight=8 onclick="getDecimal('40');" ></td>
+				<td align='center'><input type='checkbox' id='40-e' data-weight=16 onclick="getDecimal('40');" ></td>
+				<td align='center'><input type='checkbox' id='40-f' data-weight=32 onclick="getDecimal('40');" ></td>
+				<td align='center'><input type='checkbox' id='40-g' data-weight=64 onclick="getDecimal('40');" ></td>
+				<td align='center'><input type='checkbox' id='40-h' data-weight=128 onclick="getDecimal('40');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='40-hex' value='0' size='2' /> 
+					<input id='40-dec' value='0' size='2' /> 
+					<input id='40-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>41)</td>
+				<td align='center'><input type='checkbox' id='41-a' data-weight=1 onclick="getDecimal('41');" ></td>
+				<td align='center'><input type='checkbox' id='41-b' data-weight=2 onclick="getDecimal('41');" ></td>
+				<td align='center'><input type='checkbox' id='41-c' data-weight=4 onclick="getDecimal('41');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='41-d' data-weight=8 onclick="getDecimal('41');" ></td>
+				<td align='center'><input type='checkbox' id='41-e' data-weight=16 onclick="getDecimal('41');" ></td>
+				<td align='center'><input type='checkbox' id='41-f' data-weight=32 onclick="getDecimal('41');" ></td>
+				<td align='center'><input type='checkbox' id='41-g' data-weight=64 onclick="getDecimal('41');" ></td>
+				<td align='center'><input type='checkbox' id='41-h' data-weight=128 onclick="getDecimal('41');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='41-hex' value='0' size='2' /> 
+					<input id='41-dec' value='0' size='2' /> 
+					<input id='41-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+					<td colspan="12" align='center'><hr></th>
+			</tr>
+			<tr>
+				<td align='center'>42)</td>
+				<td align='center'><input type='checkbox' id='42-a' data-weight=1 onclick="getDecimal('42');" ></td>
+				<td align='center'><input type='checkbox' id='42-b' data-weight=2 onclick="getDecimal('42');" ></td>
+				<td align='center'><input type='checkbox' id='42-c' data-weight=4 onclick="getDecimal('42');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='42-d' data-weight=8 onclick="getDecimal('42');" ></td>
+				<td align='center'><input type='checkbox' id='42-e' data-weight=16 onclick="getDecimal('42');" checked ></td>
+				<td align='center'><input type='checkbox' id='42-f' data-weight=32 onclick="getDecimal('42');" checked ></td>
+				<td align='center'><input type='checkbox' id='42-g' data-weight=64 onclick="getDecimal('42');" ></td>
+				<td align='center'><input type='checkbox' id='42-h' data-weight=128 onclick="getDecimal('42');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='42-hex' value='0' size='2' /> 
+					<input id='42-dec' value='0' size='2' /> 
+					<input id='42-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>43)</td>
+				<td align='center'><input type='checkbox' id='43-a' data-weight=1 onclick="getDecimal('43');" checked ></td>
+				<td align='center'><input type='checkbox' id='43-b' data-weight=2 onclick="getDecimal('43');" checked ></td>
+				<td align='center'><input type='checkbox' id='43-c' data-weight=4 onclick="getDecimal('43');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='43-d' data-weight=8 onclick="getDecimal('43');" ></td>
+				<td align='center'><input type='checkbox' id='43-e' data-weight=16 onclick="getDecimal('43');" checked ></td>
+				<td align='center'><input type='checkbox' id='43-f' data-weight=32 onclick="getDecimal('43');" checked ></td>
+				<td align='center'><input type='checkbox' id='43-g' data-weight=64 onclick="getDecimal('43');" ></td>
+				<td align='center'><input type='checkbox' id='43-h' data-weight=128 onclick="getDecimal('43');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='43-hex' value='0' size='2' /> 
+					<input id='43-dec' value='0' size='2' /> 
+					<input id='43-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>44)</td>
+				<td align='center'><input type='checkbox' id='44-a' data-weight=1 onclick="getDecimal('44');" checked ></td>
+				<td align='center'><input type='checkbox' id='44-b' data-weight=2 onclick="getDecimal('44');" ></td>
+				<td align='center'><input type='checkbox' id='44-c' data-weight=4 onclick="getDecimal('44');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='44-d' data-weight=8 onclick="getDecimal('44');" ></td>
+				<td align='center'><input type='checkbox' id='44-e' data-weight=16 onclick="getDecimal('44');" checked ></td>
+				<td align='center'><input type='checkbox' id='44-f' data-weight=32 onclick="getDecimal('44');" checked ></td>
+				<td align='center'><input type='checkbox' id='44-g' data-weight=64 onclick="getDecimal('44');" ></td>
+				<td align='center'><input type='checkbox' id='44-h' data-weight=128 onclick="getDecimal('44');" checked disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='44-hex' value='0' size='2' /> 
+					<input id='44-dec' value='0' size='2' /> 
+					<input id='44-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>45)</td>
+				<td align='center'><input type='checkbox' id='45-a' data-weight=1 onclick="getDecimal('45');" checked ></td>
+				<td align='center'><input type='checkbox' id='45-b' data-weight=2 onclick="getDecimal('45');" ></td>
+				<td align='center'><input type='checkbox' id='45-c' data-weight=4 onclick="getDecimal('45');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='45-d' data-weight=8 onclick="getDecimal('45');" checked ></td>
+				<td align='center'><input type='checkbox' id='45-e' data-weight=16 onclick="getDecimal('45');" checked ></td>
+				<td align='center'><input type='checkbox' id='45-f' data-weight=32 onclick="getDecimal('45');" checked ></td>
+				<td align='center'><input type='checkbox' id='45-g' data-weight=64 onclick="getDecimal('45');" ></td>
+				<td align='center'><input type='checkbox' id='45-h' data-weight=128 onclick="getDecimal('45');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='45-hex' value='0' size='2' /> 
+					<input id='45-dec' value='0' size='2' /> 
+					<input id='45-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>46)</td>
+				<td align='center'><input type='checkbox' id='46-a' data-weight=1 onclick="getDecimal('46');" checked ></td>
+				<td align='center'><input type='checkbox' id='46-b' data-weight=2 onclick="getDecimal('46');" ></td>
+				<td align='center'><input type='checkbox' id='46-c' data-weight=4 onclick="getDecimal('46');" checked ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='46-d' data-weight=8 onclick="getDecimal('46');" checked ></td>
+				<td align='center'><input type='checkbox' id='46-e' data-weight=16 onclick="getDecimal('46');" ></td>
+				<td align='center'><input type='checkbox' id='46-f' data-weight=32 onclick="getDecimal('46');" ></td>
+				<td align='center'><input type='checkbox' id='46-g' data-weight=64 onclick="getDecimal('46');" ></td>
+				<td align='center'><input type='checkbox' id='46-h' data-weight=128 onclick="getDecimal('46');" checked disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='46-hex' value='0' size='2' /> 
+					<input id='46-dec' value='0' size='2' /> 
+					<input id='46-ascii' value='' size='2' />
+				</td>
+			</tr>
+			<tr>
+				<td align='center'>47)</td>
+				<td align='center'><input type='checkbox' id='47-a' data-weight=1 onclick="getDecimal('47');" ></td>
+				<td align='center'><input type='checkbox' id='47-b' data-weight=2 onclick="getDecimal('47');" checked ></td>
+				<td align='center'><input type='checkbox' id='47-c' data-weight=4 onclick="getDecimal('47');" ></td>
+				<td align='center'>•</td>
+				<td align='center'><input type='checkbox' id='47-d' data-weight=8 onclick="getDecimal('47');" checked ></td>
+				<td align='center'><input type='checkbox' id='47-e' data-weight=16 onclick="getDecimal('47');" ></td>
+				<td align='center'><input type='checkbox' id='47-f' data-weight=32 onclick="getDecimal('47');" ></td>
+				<td align='center'><input type='checkbox' id='47-g' data-weight=64 onclick="getDecimal('47');" ></td>
+				<td align='center'><input type='checkbox' id='47-h' data-weight=128 onclick="getDecimal('47');" disabled></td>
+				<td align='center'>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align='center'>
+					<input id='47-hex' value='0' size='2' /> 
+					<input id='47-dec' value='0' size='2' /> 
+					<input id='47-ascii' value='' size='2' />
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="column">
+		Hex code output<br>
+		<textarea id='cmd' rows="7" cols="30" ></textarea>
+	</div>
+	</div>
+</form>
+
+</body>
+</html>
