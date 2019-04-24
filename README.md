@@ -7,7 +7,9 @@ Use __punch-tape-decoder.html__ to decode a punch tape into hex codes representi
 Flash __sendHex2Badge.ino__ to a 3 volt logic level arduino compatible microcontroller. I used a TI Stellaris LaunchPad LM4F120 with Energia, but any 3 volt Arduino Uno should work fine as well. Just change the pin numbers in the sketch.
 
 Solder some jumper wires to your badge's IR sensors. Something like this:
+
 ![Back of badge](badge-back.jpg)
+
 I also soldered some pin headers on to the programming port which I am using to power the badge (3 volts) from the external microcontroller.
 
 Connect all those jumper wires to your external microcontroller. See the arduino sketch comments for details on which pin is which.
@@ -51,4 +53,5 @@ Party Code F ## 0102 020001 WIRE2________ B0B05FACE8BADF00D5 0319 CR LF
 <br>```30 b1 30 b2 30 b2 30 30 30 b1 d7 c9 d2 c5 b2 a0 a0 a0 a0 a0 a0 a0 a0 42 30 42 30 35 c6 41 c3 c5 b8 42 41 44 c6 30 30 44 35 30 33 b1 39 8d 0a```
 
 You can see the results of sending the last party code to my badge here:
+
 ![Badge party](badge-party.gif)
