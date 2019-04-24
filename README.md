@@ -4,7 +4,7 @@ Badge hacks from Cyphercon 4 (2019)
 ## Instructions
 Use __punch-tape-decoder.html__ to decode a punch tape into hex codes representing each row of the binary ASCII tape format
 
-Flash __sendHex2Badge.ino__ to a 3 volt logic level arduino compatible microcontroller. I used a TI Stellaris LaunchPad LM4F120 with Energia, but any 3 volt Arduino Uno should work fine as well. Just change the pin numbers in the sketch.
+Flash __sendHex2Badge.ino__ to a 3 volt logic level arduino compatible microcontroller. I used a TI Stellaris LaunchPad LM4F120 with [Energia](http://energia.nu/), but any 3 volt Arduino Uno should work fine as well. Just change the pin numbers in the sketch.
 
 Solder some jumper wires to your badge's IR sensors. Something like this:
 
