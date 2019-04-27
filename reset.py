@@ -1,9 +1,19 @@
 import binascii
 import serial
 import time
-port = "/dev/cu.usbmodem14101"
+import argparse
+import sys
+
+def check_arg(args=None):
+    parser = argparse.ArgumentParser(description='Some script')
+    parser.add_argument('-D', '--device', help='serial port device', default='/dev/ttyACM0')
+    results = parser.parse_args(args)
+    return (results.device)
+
+device = check_arg(sys.argv[1:])
+
 baud = 115200
-ser = serial.Serial(port, baud, timeout=1)
+ser = serial.Serial(device, baud, timeout=1)
 if ser.isOpen():
   print(ser.name + ' is open...')
 
