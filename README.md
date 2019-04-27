@@ -14,6 +14,10 @@ I also soldered some pin headers on to the programming port which I am using to 
 
 Connect all those jumper wires to your external microcontroller. See the arduino sketch comments for details on which pin is which.
 
+Use the included reset.py, party.py, and unlock.py python2 scripts to quickly send known codes to the badge.
+
+Usage can be shown by running, for example, __python unlock.py --help__
+
 
 ## Punch tape data format
 7 bit ASCII + even parity bit
@@ -21,7 +25,7 @@ Connect all those jumper wires to your external microcontroller. See the arduino
 Row     = Decimal Data (Comment)
 --------------------------
 01 - 04 = 0102 (static in request form)
-05 - 10 = 00 0000  (badge number, yes I somehow ended up with badge # 0)
+05 - 10 = 00 0000  (badge class and number, yes I somehow ended up with badge # 0)
 11 - 23 = (User ID)
 24 - 41 = (Job Data)
 42 - 45 = 0319 (static in request form)
@@ -39,6 +43,7 @@ These are hex representation of the tape binary/ASCII format that can be pasted 
 Erase stored keys (under chip) ## 01234,5AFE4F1A7F007F0015 -- Fair warning, this performs a full reset of the badge, and is also the only way I know of to disable party mode
 <br>```30 b1 30 b2 30 30 30 30 30 30 a0 a0 a0 a0 a0 a0 a0 a0 a0 a0 a0 a0 a0 35 41 c6 c5 b4 c6 b1 41 b7 c6 30 30 b7 c6 30 30 b1 35 30 33 b1 39 8d 0a```
 
+I have to give a shoutout to [EvilMog](https://github.com/evilmog) for duplicating my tape emulator and integrating it with his own work. He is working on scripts to scan and digitize tapes without having to read them hole by hole like I did with my HTML decoder. Very cool, [go check out his repo](https://github.com/evilmog/cyphertapes). He also contributed back some great python scripts to help rapidly send a bunch of tapes to the badge.
 
 ### Party mode tapes
 Enter in order B --> E --> F
@@ -55,3 +60,7 @@ Party Code F ## 0102 020001 WIRE2________ B0B05FACE8BADF00D5 0319 CR LF
 You can see the results of sending the last party code to my badge here:
 
 ![Badge party](badge-party.gif)
+
+
+### Mission Accomplished mode
+Run the __unlock.py__ script in this repo to rapidly send all 32 codes to the badge, one after another, unlocking a different party mode than the one demonstrated above.
